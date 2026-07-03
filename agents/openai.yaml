@@ -1,0 +1,5 @@
+interface:
+  display_name: "中国基金研究"
+  short_description: "用风险清单研究中国基金。"
+  default_prompt: "Use $china-fund-research-skill 分析一只中国基金，并用新手能懂的话给出买入前检查清单。"
+
