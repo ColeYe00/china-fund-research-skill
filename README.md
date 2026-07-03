@@ -102,13 +102,98 @@
 - 不使用“稳赚”“必买”等确定性表达
 - 不把历史业绩视为未来收益保证
 
+## 运行环境与数据能力
+
+这是一个研究流程 Skill，不包含行情数据库，也不捆绑固定的数据抓取脚本。实际数据能力取决于使用者的 Codex 环境：
+
+| 环境能力 | 可以完成的工作 |
+|---|---|
+| 有网页、浏览器或数据连接器 | 查询并核对最新净值、公告、申赎状态等公开资料 |
+| 无联网工具，但用户提供数据 | 分析用户提供的净值、持仓、费用或截图，并标注无法独立验证 |
+| 只有基金代码 | 进行产品层面的通用研究，列出还需补充的数据 |
+| 数据不足或冲突 | 降级为条件化分析，明确缺失项，不编造数据 |
+
+盘中估值、最终确认净值和用户截图会分别标注，三者不会混为一谈。
+
 ## 安装
 
-将本仓库目录复制到 Codex Skills 目录，并在请求中使用：
+### 方法一：使用 Git 克隆
+
+Windows PowerShell：
+
+```powershell
+New-Item -ItemType Directory -Force "$HOME\.codex\skills" | Out-Null
+git clone https://github.com/ColeYe00/china-fund-research-skill.git "$HOME\.codex\skills\china-fund-research-skill"
+```
+
+macOS / Linux：
+
+```bash
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
+git clone https://github.com/ColeYe00/china-fund-research-skill.git \
+  "${CODEX_HOME:-$HOME/.codex}/skills/china-fund-research-skill"
+```
+
+### 方法二：下载 ZIP
+
+1. 在 GitHub 仓库页面选择 **Code → Download ZIP**。
+2. 解压后确认目录名为 `china-fund-research-skill`。
+3. 将整个目录放入：
+   - Windows：`%USERPROFILE%\.codex\skills\`
+   - macOS / Linux：`${CODEX_HOME:-$HOME/.codex}/skills/`
+
+安装后重新启动 Codex 或开启新会话，使 Skill 被重新发现。
+
+## 快速验证
+
+在新会话中输入：
 
 ```text
-$china-fund-research-skill
+使用 $china-fund-research-skill 分析一只中国基金，并列出买入前检查项。
 ```
+
+如果 Skill 已被识别，Codex 会读取 `SKILL.md`，并按基金身份、策略、风险、费用、缺失数据和中性结论组织结果。
+
+## 使用示例
+
+只研究产品：
+
+```text
+使用 $china-fund-research-skill 分析基金 000001。
+请标注数据日期、主要风险、费用和仍需核对的信息。
+```
+
+比较基金：
+
+```text
+使用 $china-fund-research-skill 比较以下三只基金。
+我的目标是长期配置，可接受中等波动，预计持有三年以上。
+```
+
+诊断持仓：
+
+```text
+使用 $china-fund-research-skill 检查我的基金组合。
+以下是脱敏后的基金代码、份额、成本、持有天数和赎回费。
+请检查集中度、重复暴露和交易摩擦，不要替我下单。
+```
+
+## 常见问题
+
+### Skill 没有触发
+
+- 确认目录为 `china-fund-research-skill`，且其根目录直接包含 `SKILL.md`。
+- 不要形成 `china-fund-research-skill/china-fund-research-skill/SKILL.md` 这样的双层目录。
+- 重新启动 Codex 或开启新会话。
+- 在请求中显式写出 `$china-fund-research-skill`。
+
+### 为什么没有最新净值
+
+当前 Codex 环境可能没有联网、浏览器或数据连接器。提供带日期的净值、基金平台截图或公开资料链接后，Skill 仍可继续分析，但会标注数据来源和限制。
+
+### 是否可以直接给出买卖指令
+
+不可以。本 Skill 只提供研究辅助、风险提示和交易前检查，不替用户下单，也不承诺收益。
 
 ## 目录
 
